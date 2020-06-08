@@ -15,19 +15,26 @@ sudo apt-get install libmysqlclient-dev
 
 ```bash
 sudo mysql -u root
+//创建普通用户
+mysql> CREATE USER 'abc'@'localhost' IDENTIFIED BY '123';
+//创建数据库
+mysql> create database FileServer;
+//分配权限
+mysql> GRANT ALL PRIVILEGES ON FileServer.* TO 'abc'@'localhost';
+mysql> exit
+//以普通用户登陆
+mysql -uabc -p123
 ```
 
 创建并初始化数据库
 
 ```mysql
-create database FileServer
-use FileServer
+use FileServer;
 create table UserInfo(
 UserName varchar(128) primary key,
 Salt char(32) not null,
 PassWord char(128) not null
-)
-
+);
 ```
 
 # 运行项目
@@ -75,5 +82,40 @@ make
 
 ```bash
 ./FtpClient [服务端ip] [服务端端口]
+```
+
+## 三、测试
+
+先启动服务器，再启动客户端程序
+
+### 3.1 连接成功，注册账号
+
+```
+服务端输出:
+thread pool start success
+client 192.168.67.128 36714 connect
+...
+
+客户端输出:
+connect success
+Please choose your action:
+1.login
+2.register
+>> 2
+Please input you UserName:user1
+Input password:
+register success
+```
+
+### 3.2 注册成功，进行登陆
+
+```
+Please choose your action:
+1.login
+2.register
+>> 1
+Please input your UserName:user1
+Input password:
+login success
 ```
 

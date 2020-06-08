@@ -7,8 +7,8 @@ int sqlSingleSelect(char* sql,char* buf)
     MYSQL_RES *res;
     MYSQL_ROW row;
     const char *server="localhost";
-    const char *user="root";
-    const char *password="";
+    const char *user="abc";
+    const char *password="123";
     const char *database="FileServer";
 
     //printf("%s\n",sql);
@@ -52,8 +52,8 @@ int sqlFindData(char* sql){
     MYSQL_RES *res;
     MYSQL_ROW row;
     const char *server="localhost";
-    const char *user="root";
-    const char *password="";
+    const char *user="abc";
+    const char *password="123";
     const char *database="FileServer";
 
     //printf("%s\n",sql);
@@ -96,8 +96,8 @@ int sqlFindData(char* sql){
 int sqlTableChange(char* sql){
     MYSQL *conn;
     const char *server="localhost";
-    const char *user="root";
-    const char *password="";
+    const char *user="abc";
+    const char *password="123";
     const char *database="FileServer";
 
     //printf("%s\n",sql);
