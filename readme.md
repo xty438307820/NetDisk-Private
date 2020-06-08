@@ -26,7 +26,7 @@ mysql> exit
 mysql -uabc -p123
 ```
 
-创建并初始化数据库
+创建并初始化数据表
 
 ```mysql
 use FileServer;
