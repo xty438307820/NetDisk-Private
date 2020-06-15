@@ -190,6 +190,7 @@ int main(int argc,char* argv[])
                     recv_n(newfd,&dataLen,sizeof(int));
                     memset(buf,0,sizeof(buf));
                     recv_n(newfd,buf,dataLen);
+
                     //认证成功
                     if(tok[buf]&&strcmp(buf,mp[tok[buf]]->pUserInfo->token)==0){
                         ret=0;
@@ -352,6 +353,12 @@ int userAction(void* p){//登录成功,为用户服务
         if(-1==ret) return 0;
         ret=fileExist(buf,operand,'d');
         if(1==ret){//存在同名文件夹,不能puts
+            ret=-1;
+            send_n(pnode->newfd,&ret,sizeof(int));
+            return 0;
+        }
+        ret=fileExist(buf,operand,'-');
+        if(1==ret){//存在同名文件,不能puts
             ret=-1;
             send_n(pnode->newfd,&ret,sizeof(int));
             return 0;
@@ -656,7 +663,9 @@ int userLogin(int newfd,void* p){
             //生成token值,传给客户端
             tim=time(NULL);
             sprintf(buf,"%ld%s",tim,pnode->pUserInfo->UserName);
-            pnode->pUserInfo->token=(char*)MD5((unsigned char*)buf,strlen(buf),NULL);
+            pnode->pUserInfo->token = (char*)malloc(128);
+            strcpy(pnode->pUserInfo->token,(char*)MD5((unsigned char*)buf,strlen(buf),NULL));
+            //pnode->pUserInfo->token=(char*)MD5((unsigned char*)buf,strlen(buf),NULL);
             dataLen=strlen(pnode->pUserInfo->token);
             send_n(newfd,&dataLen,sizeof(int));
             send_n(newfd,pnode->pUserInfo->token,dataLen);
@@ -684,7 +693,9 @@ int userLogin(int newfd,void* p){
             //生成token值,传给客户端
             tim=time(NULL);
             sprintf(buf,"%ld%s",tim,pnode->pUserInfo->UserName);
-            pnode->pUserInfo->token=(char*)MD5((unsigned char*)buf,strlen(buf),NULL);
+            pnode->pUserInfo->token = (char*)malloc(64);
+            strcpy(pnode->pUserInfo->token,(char*)MD5((unsigned char*)buf,strlen(buf),NULL));
+            //pnode->pUserInfo->token=(char*)MD5((unsigned char*)buf,strlen(buf),NULL);
             dataLen=strlen(pnode->pUserInfo->token);
             send_n(newfd,&dataLen,sizeof(int));
             send_n(newfd,pnode->pUserInfo->token,dataLen);

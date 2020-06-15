@@ -78,8 +78,8 @@ int transFile(int newfd,char* fileName,long offset){
             }
             currentSize+=dataLen;
             if(currentSize-preSize>=distSize){
-                //printf("%5.2f%s\r",(double)currentSize/totalSize*100,"%");
-                //fflush(stdout);
+                printf("%5.2f%s\r",(double)currentSize/totalSize*100,"%");
+                fflush(stdout);
                 preSize=currentSize;
             }
         }
@@ -108,14 +108,14 @@ int transFile(int newfd,char* fileName,long offset){
             }
             currentSize+=dataLen;
             if(currentSize-preSize>=distSize){
-                //printf("%5.2f%s\r",(double)currentSize/totalSize*100,"%");
-                //fflush(stdout);
+                printf("%5.2f%s\r",(double)currentSize/totalSize*100,"%");
+                fflush(stdout);
                 preSize=currentSize;
             }
         }
         munmap(p,totalSize);
     }
-    //printf("100.0%s\n","%");
+    printf("100.0%s           \n","%");
     close(fd);
     return 0;
 }
@@ -170,8 +170,8 @@ int recvFile(int newfd,char* curPath,long offset){
             write(fd,buf,dataLen);
             currentSize+=dataLen;
             if(currentSize-preSize>=distSize){
-                //printf("%5.2f%s\r",(double)currentSize/totalSize*100,"%");
-                //fflush(stdout);
+                printf("%5.2f%s\r",(double)currentSize/totalSize*100,"%");
+                fflush(stdout);
                 preSize=currentSize;
             }
         }
@@ -196,14 +196,14 @@ int recvFile(int newfd,char* curPath,long offset){
             }
             currentSize+=dataLen;
             if(currentSize-preSize>=distSize){
-                //printf("%5.2f%s\r",(double)currentSize/totalSize*100,"%");
-                //fflush(stdout);
+                printf("%5.2f%s\r",(double)currentSize/totalSize*100,"%");
+                fflush(stdout);
                 preSize=currentSize;
             }
         }
         munmap(p,totalSize);
     }
-    //printf("100.00%s\n","%");
+    printf("100.00%s           \n","%");
     close(fd);
     return 0;
 }

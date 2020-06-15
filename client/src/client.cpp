@@ -6,7 +6,8 @@ void* threadFunc(void*);//子线程执行puts和gets
 
 char ip[32];
 char port[10];
-char token[32]={0};
+char token[64]={0};
+char userName[128]={0};
 
 int main(int argc,char* argv[])
 {
@@ -58,6 +59,7 @@ begin:
         scanf("%s",buf);
         getchar();
         dataLen=strlen(buf);
+        strcpy(userName,buf);
 
         //登录第一步,编号1
         ret=1;//瞬时命令
@@ -163,7 +165,9 @@ begin:
         goto begin;
     }
 
-    while(1){
+    while(1){   
+        printf("%s> ",userName);
+after_puts:
         memset(buf,0,sizeof(buf));
         memset(operate,0,sizeof(operate));
         memset(operand,0,sizeof(operand));
@@ -180,12 +184,12 @@ begin:
         dataLen=strlen(buf);
         ret=send_n(socketfd,&dataLen,sizeof(int));
         if(-1==ret){
-            cout<<"Connection close"<<endl;
+            cout<<"Connection close,no operation in 30 seconds."<<endl;
             break;
         }
         ret=send_n(socketfd,buf,dataLen);
         if(-1==ret){
-            cout<<"Connection close"<<endl;
+            cout<<"Connection close,no operation in 30 seconds."<<endl;
             break;
         }
         splitChar(buf,operate,operand);
@@ -234,17 +238,18 @@ begin:
                 continue;
             }
             if(-1==fd){
-                cout<<"no this file"<<endl;
+                cout<<"no such file"<<endl;
                 continue;
             }
             recv_n(socketfd,&ret,sizeof(int));
             if(-1==ret){//存在相同名的文件夹,不能puts
-                cout<<"There is a directory with same name.Puts failed"<<endl;
+                cout<<"A directory or file with same name.Puts failed"<<endl;
                 continue;
             }
             //把命令传给子线程
             strcpy(action,buf);
             pthread_create(&threadid,NULL,threadFunc,action);
+            goto after_puts;
 /*
             //------------------------------
             //token认证
@@ -419,7 +424,7 @@ void* threadFunc(void* p){
     }
     recv_n(socketfd,&ret,sizeof(int));
     if(-1==ret){//认证失败
-        cout<<"puts failed"<<endl;
+        cout<<"puts failed,token authentication failure."<<endl;
         close(socketfd);
         return (void*)-1;
     }
@@ -482,6 +487,8 @@ void* threadFunc(void* p){
     }
 
 end:
+    printf("%s> ",userName);
+    fflush(stdout);
     close(socketfd);
     return (void*)0;
 }

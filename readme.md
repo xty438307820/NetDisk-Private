@@ -37,6 +37,52 @@ PassWord char(128) not null
 );
 ```
 
+
+
+# 功能需求
+
+## 一、基本功能
+
+编写服务器端，服务器端启动，然后启动客户端，通过客户端可以输入以下命令进行服务器上的文件查看：
+
+```
+1.cd [目录名]           #进入对应目录，cd .. 进入上级目录
+2.ls                   #列出相应目录文件
+3.puts [文件名]         #将本地文件上传至服务器
+4.gets [文件名]         #下载服务器文件到本地
+5.remove [文件、目录名]  #删除服务器上文件或目录
+6.pwd                  #显示目前所在路径
+7.mkdir [目录名]        #创建目录
+8.clear                #清空屏幕
+9.其他命令不响应
+```
+
+## 二、扩展功能
+
+### 2.1 用户注册，密码验证
+
+客户端进行用户密码验证后，才可进行操作，客户端只能看到自己的文件，不能看到其他用户的文件。
+
+服务端通过数据库存储用户名和密码。
+
+### 2.2 断点续传
+
+文件传输过程中断，下次传输同一文件从中断处开始传输
+
+### 2.3 日志记录
+
+服务端记录客户端连接时间及操作时间，写入log文件
+
+### 2.4 超时断开
+
+针对连接上的客户端，超过30秒未发送任何请求，关闭其描述符
+
+### 2.5 大文件加速传递
+
+文件大小大于100M，将大文件映射进内存，进行网络传递
+
+
+
 # 运行项目
 
 ## 一、运行服务端
@@ -119,3 +165,64 @@ Input password:
 login success
 ```
 
+### 3.3 登陆成功，进行操作
+
+创建3个目录，列出目录，进入目录，查看目前所在路径
+
+```
+user1> mkdir dir1
+user1> mkdir dir2
+user1> mkdir dir3
+user1> ls
+type                        name                 size
+d                           dir1                4096B
+d                           dir2                4096B
+d                           dir3                4096B
+user1> cd dir1
+user1> pwd
+/dir1
+user1> cd ..
+user1> pwd
+/
+```
+
+将本地文件上传
+
+```
+//清空屏幕
+user1> clear
+user1> puts The_Holy_Bible.txt
+100.0%
+puts success
+user1> ls
+type                        name                 size
+d                           dir1                4096B
+d                           dir2                4096B
+d                           dir3                4096B
+-             The_Holy_Bible.txt             4351658B
+```
+
+将本地文件The_Holy_Bible.txt删除，测试下载功能
+
+```
+user1> gets The_Holy_Bible.txt
+100.00%           
+gets success
+```
+
+测试remove功能，删除一个文件和一个目录
+
+```
+user1> remove The_Holy_Bible.txt
+user1> remove dir1
+user1> ls
+type                        name                 size
+d                           dir2                4096B
+d                           dir3                4096B
+```
+
+等待30秒不输入命令，服务端自动断开客户端连接
+
+
+
+日志记录查看log文件夹下的log文件
