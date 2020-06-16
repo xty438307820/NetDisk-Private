@@ -231,11 +231,11 @@ d                           dir3                4096B
 
 ## 时序图
 
-![时序图](./images/sequence_diagram.png)
+![sequence_diagram](./images/sequence_diagram.png)
 
 ## 部署图
 
-![部署图](./images/deployment_diagram.png)
+![deployment_diagram](./images/deployment_diagram.png)
 
 ## 应用层数据包格式
 
@@ -253,4 +253,4 @@ d                           dir3                4096B
 
 
 
-![超时断开](./images/timing_wheel.png)
+![timing_wheel](./images/timing_wheel.png)
