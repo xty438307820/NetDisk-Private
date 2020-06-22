@@ -229,11 +229,17 @@ d                           dir3                4096B
 
 # 设计图
 
-## 时序图
+## 注册登陆时序图
+
+用户注册，客户端生成随机盐值(salt)，对用户密码进行加密，客户端将用户账号，盐值，密文密码传输至服务端，服务端将用户信息存储到mysql中；用户登陆，客户端先将用户名传输给服务端，服务端根据用户名查找盐值，然后返回盐值给客户端，客户端用拿到的盐值对密码加密，然后传输密文密码至服务端，服务端将密文密码与mysql存储的密文密码进行比较，返回登陆成功与否
+
+![reglogin_sequence.png](./images/reglogin_sequence.png)
+
+## 系统时序图
 
 ![sequence_diagram](./images/sequence_diagram.png)
 
-## 部署图
+## 系统部署图
 
 ![deployment_diagram](./images/deployment_diagram.png)
 
