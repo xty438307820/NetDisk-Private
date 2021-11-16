@@ -3,10 +3,10 @@
 #include "funcpp.h"
 
 typedef struct{
-    char absPath[64];//home路径
-    char curPath[192];//相对路径
+    char absPath[1024];//home路径
+    char curPath[1024];//相对路径
     char UserName[30];//用户名
-    char Virtual[64];//虚拟文件目录路径
+    char Virtual[1024];//虚拟文件目录路径
     int state;//状态:0为刚连接,1为登录,2为注册,3为登录成功
     char *token;
 }UserCtl,*pUserCtl;

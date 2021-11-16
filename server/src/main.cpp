@@ -26,7 +26,7 @@ int main(int argc,char* argv[])
     //读配置文件
     char ip[20]={0};
     char port[10]={0};
-    char absPath[64]={0};
+    char absPath[1024]={0};
     ServerInit(argv[1],ip,port,absPath);
 
     //创建子线程
